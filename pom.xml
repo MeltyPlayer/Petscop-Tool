@@ -1,26 +1,39 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>Petscop-Tool</groupId>
-  <artifactId>Petscop-Tool</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
-        <configuration>
-          <source/>
-          <target/>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>Petscop-Tool</groupId>
+	<artifactId>Petscop-Tool</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<build>
+		<defaultGoal>install</defaultGoal>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source />
+					<target />
+				</configuration>
+			</plugin>
+			<plugin>
+	      <artifactId>maven-compiler-plugin</artifactId>
+	      <configuration>
+	        <source>1.6</source>
+	        <target>1.5</target>
+	        <fork>true</fork>
+	        <compilerArguments>
+            <bootclasspath>${1.5.0jdk}\lib\rt.jar</bootclasspath>
+	        </compilerArguments>
         </configuration>
       </plugin>
-    </plugins>
-  </build>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.bytedeco</groupId>
-  		<artifactId>javacv</artifactId>
-  		<version>1.4.2</version>
-  	</dependency>
-  </dependencies>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.bytedeco</groupId>
+			<artifactId>javacv</artifactId>
+			<version>1.1</version>
+		</dependency>
+	</dependencies>
 </project>

@@ -1,11 +1,10 @@
 package sticker.video;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
-import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.javacv.FrameGrabber.Exception;
 import org.bytedeco.javacv.Java2DFrameConverter;
 
@@ -21,10 +20,22 @@ public class Mp4FrameGrabber {
     converter = new Java2DFrameConverter();
   }
 
+  public void dispose() {
+    try {
+      frameGrabber.release();
+    } catch (Exception e) {
+      System.out.println("Mp4FrameGrabber.dispose() exception");
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
   public void start() throws FrameGrabberException {
     try {
+      //frameGrabber.setSampleFormat(avutil.AV_SAMPLE_FMT_FLT);
       frameGrabber.start();
     } catch (Exception e) {
+      System.out.println("Mp4FrameGrabber.start() exception");
       throw new FrameGrabberException(e);
     }
   }
@@ -33,6 +44,7 @@ public class Mp4FrameGrabber {
     try {
       frameGrabber.stop();
     } catch (Exception e) {
+      System.out.println("Mp4FrameGrabber.stop() exception");
       throw new FrameGrabberException(e);
     }
   }
@@ -45,7 +57,7 @@ public class Mp4FrameGrabber {
     return frameGrabber.getLengthInFrames();
   }
 
-  public Image getFrameImage(int index) throws FrameGrabberException {
+  public BufferedImage getFrameImage(int index) throws FrameGrabberException {
     try {
       frameGrabber.setFrameNumber(index);
       Frame frame = frameGrabber.grab();
