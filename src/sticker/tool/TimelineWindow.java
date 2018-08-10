@@ -1,7 +1,6 @@
 package sticker.tool;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,6 +13,8 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import sticker.estimated.Camera;
+import sticker.estimated.ThreeDReconstructionLayer;
 import sticker.video.FrameGrabberException;
 import sticker.video.VideoConstants;
 import sticker.video.VideoLayer;
@@ -23,12 +24,14 @@ public class TimelineWindow {
     TimelineWindow window = new TimelineWindow();
   }
 
+  private Camera camera = new Camera();
   private JFrame window;
   private List<TimelineLayer> layers = new LinkedList<>();
   private Timeline timeline = new Timeline();
 
   public TimelineWindow() throws FrameGrabberException {
     layers.add(new VideoLayer());
+    layers.add(new ThreeDReconstructionLayer(camera));
 
     window = new JFrame() {
       @Override
@@ -60,6 +63,26 @@ public class TimelineWindow {
             setFrame(timeline.getFrame());
           }
         }
+
+        int jlDir = (keyCode == KeyEvent.VK_L ? 1 : 0) - (keyCode == KeyEvent.VK_J ? 1 : 0);
+        int ikDir = (keyCode == KeyEvent.VK_I ? 1 : 0) - (keyCode == KeyEvent.VK_K ? 1 : 0);
+        int uoDir = (keyCode == KeyEvent.VK_U ? 1 : 0) - (keyCode == KeyEvent.VK_O ? 1 : 0);
+        if (jlDir != 0 || ikDir != 0 || uoDir != 0) {
+          camera.setPosition(camera.x() + jlDir, camera.y() + ikDir, camera.z() + uoDir);
+          setFrame(timeline.getFrame());
+        }
+
+        int nmDir = (keyCode == KeyEvent.VK_M ? 1 : 0) - (keyCode == KeyEvent.VK_N ? 1 : 0);
+        if (nmDir != 0) {
+          camera.setFov(camera.fov() + nmDir);
+          setFrame(timeline.getFrame());
+        }
+
+        int yhDir = (keyCode == KeyEvent.VK_Y ? 1 : 0) - (keyCode == KeyEvent.VK_H ? 1 : 0);
+        if (nmDir != 0) {
+          camera.setAngle(camera.angle() + yhDir);
+          setFrame(timeline.getFrame());
+        }
       }
 
       public void keyReleased(KeyEvent e) {
@@ -69,7 +92,7 @@ public class TimelineWindow {
       }
     });
 
-    setFrame(0);
+    setFrame(13905);
   }
 
   private void onClose() {
@@ -79,6 +102,7 @@ public class TimelineWindow {
   }
 
   private void setFrame(int i) {
+    timeline.goTo(i);
     for (TimelineLayer layer : layers) {
       layer.setFrame(i);
     }
